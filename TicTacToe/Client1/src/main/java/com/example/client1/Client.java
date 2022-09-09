@@ -1,4 +1,3 @@
-package com.example.client1;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,11 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.String.valueOf;
 
 public class Client extends Application {
     private Socket sock;//за место локал хоста можно поставить IP
@@ -25,14 +27,17 @@ public class Client extends Application {
     private boolean isTurn;
     private Label label;
     private InetAddress ip;
-
+    private InetAddress ip2;
+    private final String SERVER_IP = "192.168.1.39";
 
     public Client() {
         try {
-
-            sock = new Socket("localhost", 30333);
+            ip2 =InetAddress.getLocalHost();
+            System.out.println(ip2.getHostAddress());
+           // sock = new Socket(ip2.getHostAddress(),8080);
+            sock = new Socket(SERVER_IP,8080);
             writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-            ip = sock.getInetAddress().getLocalHost();
+            ip =sock.getInetAddress().getLocalHost();
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException("CLIENT ERROR");
@@ -95,6 +100,7 @@ public class Client extends Application {
         b1.setMaxWidth(110);
         b1.setMaxHeight(20);
         b.setOnAction(event -> {
+
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
                 writer.write("ip:::" + b1.getText());
@@ -105,7 +111,7 @@ public class Client extends Application {
             }
         });
 
-        label = new Label(String.valueOf(ip.getHostAddress()));
+        label = new Label( valueOf(ip.getHostAddress()));
         label.setTranslateX(-90);
         label.setTranslateY(-100);
 
@@ -113,7 +119,7 @@ public class Client extends Application {
         root.getChildren().add(b1);
         root.getChildren().add(label);
         root.getChildren().add(b);
-        stage.setTitle("XO&X local match");
+        stage.setTitle("XO&X local seting");
         stage.setScene(new Scene(root, 350, 270));
 
         stage.show();
@@ -191,5 +197,4 @@ public class Client extends Application {
         launch(args);
     }
 }
-
 
