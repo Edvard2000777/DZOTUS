@@ -21,8 +21,7 @@ public class Player implements Runnable {
         this.socket = socket;
         this.id = id;
         counter++;
-        // К реальному ip добавляется еще доп цифра с точкой, иначе на одном компьютере совпадают адреса
-        // ip = socket.getInetAddress().getLocalHost().getHostAddress() + "." + counter;
+       
         ip = socket.getInetAddress().getLocalHost().getHostAddress();
         bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         printWriter = new PrintWriter(socket.getOutputStream());
@@ -56,7 +55,7 @@ public class Player implements Runnable {
         System.out.println("client  " + ip + " discount ");
     }
 
-    /// !!!!!!!!!!!!!!ПРОБЛЕМА С РЕГУЛЯРНЫМ ВЫРАЖЕНИЕМ ОНО РАБОТАЕТ НЕ КОРРЕКТНО !!!!!!!!!!!!!!!!!!!!!!!!
+   
     private boolean checkForIp(String s) {
         /// String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
         return s.contains("ip:::");
@@ -102,3 +101,4 @@ public class Player implements Runnable {
         return ip;
     }
 }
+
