@@ -9,7 +9,7 @@ public class ApplicationServer {
 
     public static void main(String[] args) throws IOException {
 
-        ServerSocket server = new ServerSocket(30333);
+        ServerSocket server = new ServerSocket(8080);
         System.out.println("SERVER STARTED");
         while (true) {
             Socket sock = server.accept();
@@ -23,4 +23,3 @@ public class ApplicationServer {
         }
     }
 }
-
