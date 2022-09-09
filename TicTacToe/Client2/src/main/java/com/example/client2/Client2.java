@@ -1,4 +1,3 @@
-package com.example.client2;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -6,14 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import sun.security.krb5.internal.HostAddress;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.*;
+import java.util.*;
+
+import static java.lang.String.valueOf;
 
 public class Client2 extends Application {
     private Socket sock;//за место локал хоста можно поставить IP
@@ -25,13 +25,16 @@ public class Client2 extends Application {
     private boolean isTurn;
     private Label label;
     private InetAddress ip;
-
+    private InetAddress ip2;
+    private final String SERVER_IP = "192.168.1.39";
     public Client2() {
         try {
 
-            sock = new Socket("192.168.1.1", 30333);
+            ip2 =InetAddress.getLocalHost();
+            System.out.println(ip2.getHostAddress());
+            sock = new Socket(SERVER_IP,8080);
             writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-            ip = sock.getInetAddress().getLocalHost();
+            ip =sock.getInetAddress().getLocalHost();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,6 +101,7 @@ public class Client2 extends Application {
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
                 writer.write("ip:::" + b1.getText());
+
                 writer.newLine();
                 writer.flush();
             } catch (IOException e) {
@@ -113,7 +117,7 @@ public class Client2 extends Application {
         root.getChildren().add(b1);
         root.getChildren().add(label);
         root.getChildren().add(b);
-        stage.setTitle("XO&O local match");
+        stage.setTitle("XO&0 local seting");
         stage.setScene(new Scene(root, 350, 270));
 
         stage.show();
@@ -191,26 +195,3 @@ public class Client2 extends Application {
         launch(args);
     }
 }
-//    class Server2 {
-//        int adres;
-//        public  static   void main(String[] args) throws IOException {
-//
-//            ServerSocket server = new ServerSocket(30333);
-//            Stack<ServerThread> clients = new Stack<>();
-//            System.out.println("SERVER STARTED");
-//            while (true) {
-//                Socket sock = server.accept();
-//                System.out.println("client " + sock.getInetAddress().getCanonicalHostName() + " connected ");
-//                ServerThread client = new ServerThread(sock);
-//                System.out.println(sock.getInetAddress());
-//                client.setupAndStart();
-//                if (!clients.isEmpty()) {
-//                    ServerThread previousClient = clients.peek();
-//                    previousClient.setClient2(sock);
-//                    client.setClient2(previousClient.getSock());
-//                }
-//                clients.push(client);
-//            }
-//        }
-//    }
-
