@@ -1,20 +1,29 @@
-plugins {
+plugins{
     id 'java'
 }
 
-group 'org.example'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
+}
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    implementation  'com.google.guava:guava:31.1-jre'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+test {
+    useJUnitPlatform()
 }
 
-dependencies {
-    // https://mvnrepository.com/artifact/com.google.guava/guava
-    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+jar {
+    manifest {
+        attributes "Main-Class": "HelloOtus"
+    }
 
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
