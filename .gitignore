@@ -46,7 +46,7 @@
 
 # CMake
 cmake-build-*/
-.idea/*
+.idea/
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
@@ -55,6 +55,8 @@ cmake-build-*/
 .gradle/*
 # IntelliJ
 out/
+.idea/*
+.idea/**
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
