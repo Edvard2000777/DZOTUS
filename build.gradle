@@ -1,46 +1,25 @@
-<<<<<<< HEAD
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "5.1.0"
 }
-sourceCompatibility = "1.8";
-targetCompatibility = "1.8";
-group 'org.example'
-version '1.0-SNAPSHOT'
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+dependencies {
+    implementation 'com.google.guava:guava:31.1-jre'
+
+}
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-}
-jar {
+shadowJar {
+    archiveBaseName.set('gradleHelloWorld')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
     manifest {
-        attributes "Main-Class": "HelloOtus"
+        attributes 'Main-Class': 'HelloOtus'
     }
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-=======
-plugins {
-    id 'java'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
-dependencies {
-    // https://mvnrepository.com/artifact/com.google.guava/guava
-    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-
->>>>>>> main
-}
+tasks.build.dependsOn tasks.shadowJar
