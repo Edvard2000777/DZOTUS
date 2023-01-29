@@ -1,29 +1,25 @@
-plugins{
+plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "5.1.0"
 }
 
-version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
+dependencies {
+    implementation 'com.google.guava:guava:31.1-jre'
+
+}
 repositories {
     mavenCentral()
-    mavenLocal()
 }
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    implementation  'com.google.guava:guava:31.1-jre'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-test {
-    useJUnitPlatform()
-}
-
-jar {
+shadowJar {
+    archiveBaseName.set('gradleHelloWorld')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
     manifest {
-        attributes "Main-Class": "HelloOtus"
-    }
-
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        attributes 'Main-Class': 'HelloOtus'
     }
 }
+
+tasks.build.dependsOn tasks.shadowJar
